@@ -62,6 +62,64 @@
                           # of indicators
                         </div>
                       </div>
+                      <?php foreach($models as $model => $variables) { ?>
+                      <div class="row models" id="model_<?=$model?>"<?php if ($model != 1) { ?> style="display: none"<?php } ?>>
+                        <div class="col-md-12">
+                          <em>Model Statistics</em>
+                          <table>
+                            <tr>
+                              <th>Cox & Snell R<sup>2</sup></th>
+                              <th>N</th>
+                            </tr>
+                            <tr>
+                              <td><?=$variables[0]['r_squared']?></td>
+                              <td><?=$variables[0]['n']?></td>
+                            </tr>
+                          </table>
+                          <br />
+                          <em>Indicator Outcomes</em>
+                          <table>
+                            <tr>
+                              <th>Variable</th>
+                              <th>Beta</th>
+                              <th>Exp(B)</th>
+                              <th>Sig.</th>
+                              <th>Set</th>
+                            </tr>
+                            <?php foreach ($variables as $v=>$variable) { ?>
+                            <tr>
+                              <td><?=$variable['variable']?></td>
+                              <td><?=$variable['coefficient']?></td>
+                              <td id="<?=$model?>_<?=$v?>_multiplier"><?=round(exp($variable['coefficient']),3)?></td>
+                              <td><?=$variable['significance']?><?php if ($variable['significance'] < .001) { ?>*<?php } ?><?php if ($variable['significance'] < .005) { ?>*<?php } ?><?php if ($variable['significance'] < .05) { ?>*<?php } ?></td>
+                              <td>
+                                <?php if ($v != count($variables) - 1) { ?>
+                                <select name="choose_<?=$v?>_<?=$model?>" data-model="<?=$model?>" data-variable="<?=$v?>" class="indicator-setter">
+                                  <option value="0">0</option>
+                                  <option value="1">1</option>
+                                </select>
+                                <?php } else { ?>
+                                &nbsp;
+                                <?php } ?>
+                              </td>
+                            </tr>
+                            <?php } ?>
+                            <tr>
+                            <td colspan="4" style="text-align: right">
+                              Relative probability:
+                            </td>
+                            <td id="probability_<?=$model?>">0 %
+                            </td>
+                          </table>
+                          <div style="display: none">
+                            <br />
+                            <em>EST</em>(P) = <?php foreach($variables as $n => $variable) { ?>
+                              <?php if($n == 0) { ?><?php echo($variable['coefficient']) ?><?php } else { ?><?=$variable['coefficient'] < 0 ? '-' : '+' ?> <?php echo(abs($variable['coefficient'])) ?><?php } ?><?php if ($variable['variable'] !== 'constant') { ?><em>*<?php echo($variable['variable']) ?></em><?php } ?>
+                             <?php } ?>
+                          </div>
+                        </div>
+                      </div>
+                      <?php } ?>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -74,6 +132,7 @@
       </div>
     </div>
     <script type="text/javascript">
+
       google.charts.load('current', {'packages':['bar','corechart']});
       google.charts.setOnLoadCallback(drawChart);
 
@@ -186,6 +245,17 @@
 
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 
+
+        $('.indicator-setter').change(function() {
+          var model = $(this).data('model');
+          var variable = $(this).data('variable');
+          var multiplier = parseFloat($('#' + model + '_' + variable + '_multiplier').text());
+          var value = parseInt($(this).val());
+          var relative = Math.round((multiplier - 1) * 100 * value, 0);
+          var sign = relative >= 0 ? '+' : '';
+          $('#probability_' + model).text(sign + relative + '%');
+        });
+
         $('#select-demographic-1,#select-demographic-2').change(function () {
           var dem1 = $('#select-demographic-1').val();
           var dem2 = $('#select-demographic-2').val();
@@ -261,9 +331,9 @@
         chart.draw(basicData, options);
 
         $('#range').change(function() {
-          variableNumber = $(this).val();
-          
-
+          var variableNumber = $(this).val();
+          $('.models').hide();
+          $('#model_' + variableNumber).show();
         });
       };
     </script>

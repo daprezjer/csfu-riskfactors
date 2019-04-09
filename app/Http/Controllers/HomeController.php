@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Demographic;
+use App\ModelIndicator;
+use App\Helpers;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -53,6 +55,14 @@ class HomeController extends Controller
             ->groupBy('race')
             ->groupBy('grade_level')
             ->get();
-        return view('home', ['demographics' => $demographics]);
+
+        $models = ModelIndicator::select('model_indicators.*', 'indicators.variable', 'models.r_squared', 'models.n')
+            ->join('indicators','model_indicators.indicator_id','=','indicators.id')
+            ->join('models','model_indicators.model_id','=','models.id')
+            ->get()->toArray();
+
+        assoc($models, 'model_id');
+
+        return view('home', ['demographics' => $demographics, 'models' => $models]);
     }
 }
