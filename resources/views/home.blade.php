@@ -37,6 +37,42 @@
             </div>
         </div>
     </div>
+    <br />
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">Predictors</div>
+            <div class="card-body">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-md-2" style="text-align: right">1</div>
+                        <div class="col-md-8">
+                          <div class="slidecontainer">
+                            <input type="range" min="1" max="11" value="1" class="slider" id="range">
+                          </div>
+                        </div>
+                        <div class="col-md-2" style="text-align: left">11</div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12" style="text-align: center">
+                          # of indicators
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script type="text/javascript">
       google.charts.load('current', {'packages':['bar','corechart']});
       google.charts.setOnLoadCallback(drawChart);
@@ -223,6 +259,12 @@
         };
 
         chart.draw(basicData, options);
+
+        $('#range').change(function() {
+          variableNumber = $(this).val();
+          
+
+        });
       };
     </script>
 @endsection

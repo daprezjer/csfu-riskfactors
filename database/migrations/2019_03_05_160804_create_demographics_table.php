@@ -15,20 +15,13 @@ class CreateDemographicsTable extends Migration
     {
         Schema::create('demographics', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('case_id');
-            $table->unsignedInteger('year');
-            $table->unsignedInteger('form_id');
-            $table->unsignedInteger('respondent_id');
-            $table->unsignedDecimal('sample_weight',7, 6);
             $table->unsignedInteger('grade_level');
-            $table->unsignedInteger('region');
-            $table->unsignedTinyInteger('urban');
-            $table->unsignedTinyInteger('msa');
             $table->unsignedTinyInteger('race')->nullable();
-            $table->unsignedTinyInteger('age')->nullable();
             $table->unsignedTinyInteger('gender')->nullable();
             $table->unsignedTinyInteger('depression')->nullable();
-            $table->unsignedTinyInteger('smoke')->nullable();
+            $table->unsignedTinyInteger('depression_ind')->nullable()->default(null);
+            $table->unsignedTinyInteger('smoke_recently')->nullable();
+            $table->unsignedTinyInteger('smoke_ever')->nullable();
             $table->timestamps();
         });
     }
