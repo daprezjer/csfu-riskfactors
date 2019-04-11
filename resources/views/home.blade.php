@@ -94,10 +94,15 @@
                               <td><?=$variable['significance']?><?php if ($variable['significance'] < .001) { ?>*<?php } ?><?php if ($variable['significance'] < .005) { ?>*<?php } ?><?php if ($variable['significance'] < .05) { ?>*<?php } ?></td>
                               <td>
                                 <?php if ($v != count($variables) - 1) { ?>
-                                <select name="choose_<?=$v?>_<?=$model?>" data-model="<?=$model?>" data-variable="<?=$v?>" class="indicator-setter">
-                                  <option value="0">0</option>
-                                  <option value="1">1</option>
-                                </select>
+                                <?php if ($variable['variable'] !== 'parent_college_degrees') { ?>
+                                <input type="checkbox" name="choose_<?=$v?>_<?=$model?>" data-model="<?=$model?>" data-variable="<?=$v?>" class="choosers_<?=$model?> indicator-setter" value="1" />
+                                    <?php } else { ?>
+                                    <select name="choose_<?=$v?>_<?=$model?>" data-type="select" data-variable="<?=$v?>" class="choosers_<?=$model?> indicator-setter">
+                                      <option value="0">0</option>
+                                      <option value="1">1</option>
+                                      <option value="2">2</option>
+                                    </select>
+                                  <?php } ?>
                                 <?php } else { ?>
                                 &nbsp;
                                 <?php } ?>
@@ -246,12 +251,25 @@
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 
 
-        $('.indicator-setter').change(function() {
+        $('.indicator-setter').click(function() {
+          var running = 1;
           var model = $(this).data('model');
-          var variable = $(this).data('variable');
-          var multiplier = parseFloat($('#' + model + '_' + variable + '_multiplier').text());
-          var value = parseInt($(this).val());
-          var relative = Math.round((multiplier - 1) * 100 * value, 0);
+          $('.choosers_' + model).each(function (index, option) {
+            var variable = $(this).data('variable');
+            var multiplier = parseFloat($('#' + model + '_' + variable + '_multiplier').text());
+            if ($(option).is(':checked')) {
+              running *= multiplier;
+            } else if ($(option).attr('data-type') == 'select') {
+              alert($(option).val());
+              if ($(option).val() == '1') {
+                running *= multiplier;
+              } else if ($(option).val() == '2') {
+                running *= multiplier;
+                running *= multiplier;
+              }
+            }
+          });
+          var relative = Math.round((running - 1) * 100, 0);
           var sign = relative >= 0 ? '+' : '';
           $('#probability_' + model).text(sign + relative + '%');
         });
