@@ -74,3 +74,20 @@
 .models table th, .models table td {
     padding: 3px 7px;
 }
+
+.navbar {
+    padding: 0 !important;
+}
+
+.nav-link {
+    color: #c0c0c0 !important;
+}
+
+.nav-link.active {
+    font-weight: bold !important;
+    border-bottom: 4px solid cornflowerblue;
+}
+
+table td, table th {
+    padding: 5px 10px;
+}
