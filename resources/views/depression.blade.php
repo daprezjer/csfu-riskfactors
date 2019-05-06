@@ -161,7 +161,7 @@
                     </select>% confident that the percentage of students is within the range above.
                   </div>
                   <div class="col-md-6">
-                    <b>Description:</b> The blue line here represents our best estimate of prevalence of smoking in the future, given that current trends hold.<br /><br />
+                    <b>Description:</b> The blue line here represents our best estimate of prevalence of the depression proxy in the future, given that current trends hold.<br /><br />
                     <b>Directions:</b> Adjust the confidence interval to widen or tighten our confidence bands.
                   </div>
                 </div>

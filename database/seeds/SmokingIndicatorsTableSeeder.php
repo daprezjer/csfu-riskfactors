@@ -14,6 +14,7 @@ class SmokingIndicatorsTableSeeder extends Seeder
         DB::table('smoking_indicators')->insert([
             ['variable' => 'tenth_grade'],
             ['variable' => 'parent_awareness'],
+            ['variable' => 'years_since_2012'],
             ['variable' => 'rural'],
             ['variable' => 'black'],
             ['variable' => 'father_present'],

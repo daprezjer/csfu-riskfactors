@@ -31,9 +31,9 @@ class DepressionForecastsTableSeeder extends Seeder
                 'ci_75_hi' => .287,
                 'ci_90_lo' => .221,
                 'ci_90_hi' => .299,
-                'ci_95_lo' => .226,
+                'ci_95_lo' => .214,
                 'ci_95_hi' => .313,
-                'ci_99_lo' => .217,
+                'ci_99_lo' => .200,
                 'ci_99_hi' => .322
             ],
             [
@@ -43,7 +43,7 @@ class DepressionForecastsTableSeeder extends Seeder
                 'ci_75_hi' => .300,
                 'ci_90_lo' => .226,
                 'ci_90_hi' => .313,
-                'ci_95_lo' => .231,
+                'ci_95_lo' => .217,
                 'ci_95_hi' => .327,
                 'ci_99_lo' => .201,
                 'ci_99_hi' => .338

@@ -46,7 +46,7 @@
                             <a href="/depression/" class="nav-link<?=$page=='depression' ? ' active' : ''?>">Depression</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/about/" class="nav-link<?=$page=='study' ? ' active' : ''?>">Data and Study Info</a>
+                            <a href="/about/" class="nav-link<?=$page=='about' ? ' active' : ''?>">Data and Study Info</a>
                         </li>
                         <li class="nav-item">
                             <a href="/development/" class="nav-link<?=$page=='development' ? ' active' : ''?>">Site Development</a>

@@ -54,10 +54,10 @@
                         <div class="col-md-2" style="text-align: right">1</div>
                         <div class="col-md-8">
                           <div class="slidecontainer">
-                            <input type="range" min="1" max="11" value="1" class="slider" id="range">
+                            <input type="range" min="1" max="12" value="1" class="slider" id="range">
                           </div>
                         </div>
-                        <div class="col-md-2" style="text-align: left">11</div>
+                        <div class="col-md-2" style="text-align: left">12</div>
                       </div>
                       <div class="row">
                         <div class="col-12" style="text-align: center">
@@ -96,14 +96,23 @@
                               <td><?=$variable['significance']?><?php if ($variable['significance'] < .001) { ?>*<?php } ?><?php if ($variable['significance'] < .005) { ?>*<?php } ?><?php if ($variable['significance'] < .05) { ?>*<?php } ?></td>
                               <td>
                                 <?php if ($v != count($variables) - 1) { ?>
-                                <?php if ($variable['variable'] !== 'parent_college_degrees') { ?>
-                                <input type="checkbox" name="choose_<?=$v?>_<?=$model?>" data-model="<?=$model?>" data-variable="<?=$v?>" class="choosers_<?=$model?> indicator-setter" value="1" />
-                                    <?php } else { ?>
-                                    <select name="choose_<?=$v?>_<?=$model?>" data-type="select" data-model="<?=$model?>" data-variable="<?=$v?>" class="choosers_<?=$model?> indicator-setter">
-                                      <option value="0">0</option>
-                                      <option value="1">1</option>
-                                      <option value="2">2</option>
-                                    </select>
+                                <?php if ($variable['variable'] == 'parent_college_degrees') { ?>
+                                  <select name="choose_<?=$v?>_<?=$model?>" data-type="select" data-model="<?=$model?>" data-variable="<?=$v?>" class="choosers_<?=$model?> indicator-setter">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                  </select>
+                                  <?php } else if ($variable['variable'] == 'years_since_2012') { ?>
+                                  <select name="choose_<?=$v?>_<?=$model?>" data-type="select" data-model="<?=$model?>" data-variable="<?=$v?>" class="choosers_<?=$model?> indicator-setter">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                  </select>
+                                  <?php } else { ?>
+                                  <input type="checkbox" name="choose_<?=$v?>_<?=$model?>" data-model="<?=$model?>" data-variable="<?=$v?>" class="choosers_<?=$model?> indicator-setter" value="1" />
                                   <?php } ?>
                                 <?php } else { ?>
                                 &nbsp;
@@ -115,7 +124,7 @@
                             <td colspan="4" style="text-align: right">
                               Relative probability:
                             </td>
-                            <td id="probability_<?=$model?>">0 %
+                            <td id="probability_<?=$model?>">0%
                             </td>
                           </table>
                           <div style="display: none">
@@ -397,12 +406,7 @@
           if ($(option).is(':checked')) {
             running *= multiplier;
           } else if ($(option).attr('data-type') == 'select') {
-            if ($(option).val() == '1') {
-              running *= multiplier;
-            } else if ($(option).val() == '2') {
-              running *= multiplier;
-              running *= multiplier;
-            }
+            running *= Math.pow(multiplier, parseInt($(option).val()));
           }
         });
         var relative = Math.round((running - 1) * 100, 0);
